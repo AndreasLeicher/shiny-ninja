@@ -1,6 +1,8 @@
 var querystring  = require("querystring"),
 fs = require("fs");
 
+
+//request handler for start page, allows users to upload a file
 function start(res, postData) {
 	console.log("Request handler 'start' called.");
 	
@@ -10,9 +12,9 @@ function start(res, postData) {
 	'	<meta http-equiv="Content-Type" content="text/html"; charset=UTF-8" />' +
 	'</head>' + 
 	'<body>' +
-	'	<form action="/upload" method="post">' + 
-	'		<textarea name="text" rows="20" cols="60"></textarea>' +
-	'		<input type="submit" value="Submit" />' + 
+	'	<form action="/upload" enctype="multipart/form-data" method="post">' + 
+	'		<input type="file" name="upload">' +
+	'		<input type="submit" value="Upload File" />' + 
 	'	</form>' + 
 	'</body>' + 
 	'</html>';
@@ -22,6 +24,8 @@ function start(res, postData) {
 	res.end();
 }
 
+
+// request handler for uploads, also calls show to display file
 function upload(res, postData) {
 	console.log("Request handler 'upload' called.");
 	res.writeHead(200, {"Content-Type": "text/plain"});
@@ -30,6 +34,8 @@ function upload(res, postData) {
 	res.end();
 }
 
+
+// display the test.png file
 function show(res, postData) {
 	console.log("Request handler 'show' called.");
 	fs.readFile("/tmp/test.png", "binary", function(err, file) {
