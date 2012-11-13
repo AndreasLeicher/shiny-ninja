@@ -7,12 +7,12 @@ function start(route, handle){
 	function onRequest(req, res) {
 		var pathname = url.parse(req.url).pathname;
 		console.log("Request for " + pathname + " received");
-
-		//call router
-		route(handle, pathname);
-
 		res.writeHead(200, {"Content-Type": "text/plain"});
-		res.write("Hello World 3");
+		
+		//call router
+		var content = route(handle, pathname);
+		res.write(content);
+		
 		res.end();
 	}
 
