@@ -1,4 +1,5 @@
-var querystring  = require("querystring");
+var querystring  = require("querystring"),
+fs = require("fs");
 
 function start(res, postData) {
 	console.log("Request handler 'start' called.");
@@ -29,6 +30,25 @@ function upload(res, postData) {
 	res.end();
 }
 
+function show(res, postData) {
+	console.log("Request handler 'show' called.");
+	fs.readFile("/tmp/test.png", "binary", function(err, file) {
+		if(err) {
+			//display error message
+			res.writeHead(500, {"Content-Type": "text/plain"});
+			res.write(err + "\n");
+			res.end();
+		} else {
+			//display file
+			res.writeHead(200, {"Content-Type": "image/png"});
+			res.write(file, "binary");
+			res.end();
+		}
+	});
+}
+
+
 exports.start = start;
 exports.upload = upload;
+exports.show = show;
 
